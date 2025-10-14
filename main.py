@@ -3,15 +3,17 @@ import json
 hash = {}
 
 with open('players_list_foa.txt','r') as f:
-	lines = f.readlines()
+	lines = f.readlines()[1:]
 	for line in lines:
-		# if 'SWE' in line:
 		fide = line[0:10].strip()
 		name = line[15:50].strip()
-		S = line[114-1:118-1].strip()
-		R = line[127-1:131-1].strip()
-		B = line[140-1:144-1].strip()
-		hash[fide] = [name,S,R,B]
+		country = line[76:79].strip()
+		S = int(line[114-1:118-1].strip())
+		R = int(line[127-1:131-1].strip())
+		B = int(line[140-1:144-1].strip())
+		if country == 'SWE' or S >= 2000:
+			hash[fide] = [name,S,R,B]
 
-with open('databas_world.json', 'w', encoding='utf-8') as f:
-	json.dump(hash, f, ensure_ascii=False,separators=(',', ':'))
+with open('databas.json', 'w', encoding='utf-8') as f:
+	lines = [f'"{key}": {json.dumps(hash[key])}' for key in hash]
+	f.write('{\n' + ',\n'.join(lines) + '\n}')
