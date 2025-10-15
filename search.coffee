@@ -3,6 +3,34 @@ range = _.range
 
 members = {}
 
+
+# https://chatgpt.com/s/t_68ee8d15b2508191b461f981e133a99b
+fideCheckDigit = (numWithoutCheck) ->
+	weights = [2,3,4,5,6,7]
+	digits = (parseInt(d) for d in numWithoutCheck.toString())
+	sum = 0
+	for d, i in digits by -1
+		w = weights[(digits.length - 1 - i) % 6]
+		sum += d * w
+	r = sum % 11
+	c = (11 - r) % 11
+	if c is 10 then 0 else c
+
+
+
+fideIsValid = (fideNumber) ->
+  num = Math.floor fideNumber / 10
+  check = fideNumber % 10
+  fideCheckDigit(num) is check
+
+# Exempel
+console.log fideCheckDigit 171035  # → 4
+console.log fideIsValid 1710354    # → true
+console.log fideIsValid 1710355    # → false
+
+
+
+
 do ->
 	try
 		res1 = await fetch('./databas.json') 

@@ -16,3 +16,8 @@ Givet FIDE-id hämtar programmet namn och elo-rating för alla spelare.
 	* I första hand hämtas namnet från pretty.json
 	* I andra hand hämtas namnet från databas.json
 
+|Namn|Elo|
+|-|-|
+|Christer|1650|
+|Jouko|1550|
+
