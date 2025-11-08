@@ -5,14 +5,20 @@ TYPE = 0 # 0=Classic 1=Rapid 2=Blitz
 
 members = {}
 
-do ->
+fetchShard = (fidenumber) ->
+	shard = "#{fidenumber}"
+	n = shard.length
+	shard = shard.slice n-4,n-1
+
 	try
-		[res1] = await Promise.all [fetch('./ssf.json')]
-		[members] = await Promise.all [res1.json()]
-		echo members
-		transfer TYPE
-	catch err
-		console.error 'Fel vid hämtning:', err
+		filename = "./shards/#{shard}.json"
+		response = await fetch filename
+		members = await response.json()
+	catch error 
+		console.error 'Fel vid hämtning:', error
+
+	return await members[fidenumber]
+
 
 getRating = (member,type) ->
 	if member[type] > 0 then return member[type]
@@ -23,11 +29,13 @@ transfer = (type) ->
 	fidenumbers = textarea0.value.split "\n"
 	result = []
 	for fidenumber in fidenumbers
-		if fidenumber.trim() == "" then continue
-		member = if fidenumber not of members then ['saknas!',"0","0","0"] else members[fidenumber]
+		fidenumber = fidenumber.trim()
+		if fidenumber == "" then continue
+		member = await fetchShard fidenumber
+		member = if not member then ['saknas!',"0","0","0"] else member
 		rating = getRating member,type
 		if rating == '0' then rating = "0000"
-		name = member[4]
+		name = member[3]
 		result.push  fidenumber + ' ' + if rating != undefined and name != undefined then rating + ' ' + name else ''
 	
 	textarea1.value = result.join "\n"
