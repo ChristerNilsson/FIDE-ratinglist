@@ -1,22 +1,36 @@
+# Hämtar alla Sveriges medlemmar via API från member.schack och sparar på ssf.json
+# FIDE används ej pga av problem med åäö som inte går att fixa eftersom de ersattes med aao
+
+import urllib.request
 import json
+import time
 
 hash = {}
+start = time.time()
 
-with open('players_list_foa.txt','r') as f:
-	lines = f.readlines()[1:]
-	for line in lines:
-		fide = line[0:10].strip()
-		name = line[15:50].strip()
-		born = int(line[152:156].strip())
-		country = line[76:79].strip()
-		S = int(line[114-1:118-1].strip())
-		R = int(line[127-1:131-1].strip())
-		B = int(line[140-1:144-1].strip())
-		if country == 'SWE' or S >= 2000:
-			hash[fide] = [name,S,R,B,born,country]
+def fetchSSF(month):
+	url = f"https://member.schack.se/public/api/v1/ratinglist/federation/date/{month}-01/ratingtype/1/category/0"
+	with urllib.request.urlopen(url) as response:
+		return json.loads(response.read())
 
-with open('databas.json', 'w', encoding='utf-8') as f:
-	lines = [f'"{key}": {json.dumps(hash[key])}' for key in hash]
-	f.write('{\n' + ',\n'.join(lines) + '\n}')
+members = fetchSSF('2025-11')
 
-print(len(lines))
+ssf = {}
+for member in members:
+	ssfid = member['id']
+	fideid = member['fideid']
+	firstName = member['firstName']
+	lastName = member['lastName']
+	sex = member['sex']
+	birthYear = int(member['birthdate'])
+	elo = member['elo']
+	classic = elo['rating']
+	rapid = elo['rapidRating']
+	blitz = elo['blitzRating']
+	name = lastName + ', ' + firstName
+	ssf[fideid] = [classic, rapid, blitz, ssfid, name, sex, birthYear]
+
+with open('ssf.json', 'w', encoding='utf-8') as g:
+	json.dump(ssf, g, ensure_ascii=False)
+
+print(time.time()-start) # 2.85 sek => 9930 personer
