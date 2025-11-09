@@ -8,6 +8,7 @@ members = {}
 fetchShard = (fidenumber) ->
 	shard = "#{fidenumber}"
 	n = shard.length
+	if n < 7 then return ""
 	shard = shard.slice n-4,n-1
 
 	try
