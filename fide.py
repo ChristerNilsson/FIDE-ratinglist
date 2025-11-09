@@ -6,8 +6,7 @@ start = time.time()
 
 for i in range(1000):
 	shard = str(i)
-	if i<10: shard = "0" + shard
-	if i<100: shard = "0" + shard
+	while len(shard) < 3: shard = "0" + shard
 	hash[shard] = {}
 
 def fetchFIDE():
@@ -24,8 +23,7 @@ def fetchFIDE():
 			h[fideId] = [classic,rapid,blitz,name]
 	for i in range(1000):
 		shard = str(i)
-		if i < 10: shard = "0" + shard
-		if i < 100: shard = "0" + shard
+		while len(shard) < 3: shard = "0" + shard
 		with open('shards/' + shard + '.json', 'w', encoding='utf-8') as g:
 			json.dump(hash[shard], g, ensure_ascii=False)
 
