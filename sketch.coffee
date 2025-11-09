@@ -109,25 +109,31 @@ double.addEventListener "change", -> updateTimeEstimation()
 
 estimation = koppla "label", div3 #, text: " 3 h 27 m"
 
-div = koppla "div",app
-player = koppla "input", div, placeholder:'FIDE id'
-player.style.width = "166px"
+div4 = koppla "div",app
+player = koppla "input", div4, placeholder:'FIDE id'
+player.style.width = "80px"
 player.addEventListener "keydown", (event) =>
 	if event.key == "Enter" then ins.click()
 
-ins = koppla "button", div, text:'Insert'
+ins = koppla "button", div4, text:'Insert'
 ins.addEventListener 'click', -> 
 	start = new Date()
-	koppla "option",players, text: await transfer SPEED,player.value
+	p = await transfer SPEED,player.value
+	if p.length < 10 then return 
+	koppla "option",players, text: p
 	player.value = ""
 	player.focus()
+	playerCount.textContent = " #{players.options.length}"
 	stopp = new Date()
 	echo stopp - start
 
-del = koppla "button", div, text:'Delete'
+del = koppla "button", div4, text:'Delete'
 del.addEventListener 'click', -> 
 	if players.options?.length == 0 then return 
 	players.removeChild players.lastElementChild
+	playerCount.textContent = " #{players.options.length}"
+
+playerCount = koppla "label", div4, text: " 0"
 
 players = koppla "select", app, size:20
 players.style.width = "294px"
