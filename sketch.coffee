@@ -65,19 +65,23 @@ div2 = koppla "div", app
 bases = koppla "select", div2
 for base in [1,2,3,4,5,10,15,25,30,45,60,90]
 	koppla "option", bases, text:"#{base} min"
+bases.selectedIndex = 9
 
 incrs = koppla "select", div2
 for incr in [0,1,2,3,4,5,10,15,20,25,30]
 	koppla "option", incrs, text:"#{incr} sec"
+incrs.selectedIndex = 7
 
 rounds = koppla "select",div2
 for r in range 3,21
 	koppla "option", rounds, text:"#{r} rounds"
+rounds.selectedIndex = 4
 
 double = koppla "select", div2
 double.style.width = "75px"
 koppla "option",double, text:"single"
 koppla "option",double, text:"double"
+double.selectedIndex = 0
 
 div = koppla "div",app
 player = koppla "input", div, placeholder:'FIDE id'
