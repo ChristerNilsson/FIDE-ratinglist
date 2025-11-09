@@ -81,6 +81,11 @@ app = document.getElementById "app"
 title = koppla "input", app, placeholder:'Title'
 title.style.width = "286px"
 
+div1 = koppla "div", app
+types = koppla "select", div1
+for type in 'Berger FairPair'.split ' '
+	koppla "option", types, text:type
+
 div2 = koppla "div", app
 bases = koppla "select", div2
 for base in [1,2,3,4,5,10,15,25,30,45,60,90]
