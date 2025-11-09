@@ -63,6 +63,18 @@ updateSpeed = ->
 	if total < 60 then SPEED = 1 # Rapid
 	if total < 10 then SPEED = 2 # Blitz
 	speed.textContent = ' ' + 'Classic Rapid Blitz'.split(' ')[SPEED]
+	updateTimeEstimation()
+
+updateTimeEstimation = ->
+	base = parseInt bases.value
+	incr = parseInt incrs.value
+	total = base + incr
+	count = parseInt rounds.value
+	if double.value == 'double' then games = 2 else games = 1
+	minutes = count * games * total * 2
+	hours = minutes // 60
+	minutes = minutes %% 60
+	estimation.textContent = " #{hours} h #{minutes} m"
 
 app = document.getElementById "app"
 
@@ -74,13 +86,11 @@ bases = koppla "select", div2
 for base in [1,2,3,4,5,10,15,25,30,45,60,90]
 	koppla "option", bases, text:"#{base} min"
 bases.addEventListener "change", -> updateSpeed()
-bases.selectedIndex = 9
 
 incrs = koppla "select", div2
 for incr in [0,1,2,3,4,5,10,15,20,25,30]
 	koppla "option", incrs, text:"#{incr} sec"
 incrs.addEventListener "change", -> updateSpeed()
-incrs.selectedIndex = 7
 
 speed = koppla "label", div2, text:" Classic"
 
@@ -89,13 +99,15 @@ div3 = koppla "div", app
 rounds = koppla "select",div3
 for r in range 3,21
 	koppla "option", rounds, text:"#{r} rounds"
-rounds.selectedIndex = 4
+rounds.addEventListener "change", -> updateTimeEstimation()
 
 double = koppla "select", div3
 double.style.width = "75px"
 koppla "option",double, text:"single"
 koppla "option",double, text:"double"
-double.selectedIndex = 0
+double.addEventListener "change", -> updateTimeEstimation()
+
+estimation = koppla "label", div3 #, text: " 3 h 27 m"
 
 div = koppla "div",app
 player = koppla "input", div, placeholder:'FIDE id'
@@ -120,3 +132,9 @@ del.addEventListener 'click', ->
 players = koppla "select", app, size:20
 players.style.width = "294px"
 players.style.fontFamily = "monospace"
+
+bases.selectedIndex = 9
+incrs.selectedIndex = 7
+rounds.selectedIndex = 4
+double.selectedIndex = 0
+updateSpeed()
