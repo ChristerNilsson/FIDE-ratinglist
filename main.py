@@ -1,6 +1,3 @@
-# Hämtar alla Sveriges medlemmar via API från member.schack och sparar på ssf.json
-# FIDE används ej pga av problem med åäö som inte går att fixa eftersom de ersattes med aao
-
 import urllib.request
 import json
 import time
@@ -8,29 +5,31 @@ import time
 hash = {}
 start = time.time()
 
-def fetchSSF(month):
-	url = f"https://member.schack.se/public/api/v1/ratinglist/federation/date/{month}-01/ratingtype/1/category/0"
+def fetchClub(clubid,month):
+	url = f"https://member.schack.se/public/api/v1/ratinglist/club/{clubid}/date/{month}-01/ratingtype/1/category/0"
 	with urllib.request.urlopen(url) as response:
-		return json.loads(response.read())
+		members = json.loads(response.read())
 
-members = fetchSSF('2025-11')
+	result = []
+	for member in members:
+		clubId = member['clubId']
+		if clubid != clubId: continue
+		club = member['club']
+		fideid = member['fideid']
+		if fideid == 0: continue
+		firstName = member['firstName']
+		lastName = member['lastName']
+		birthYear = int(member['birthdate'])
+		name = lastName + ', ' + firstName
+		result.append(f"{name} {fideid} {birthYear}")
+	result.sort()
 
-ssf = {}
-for member in members:
-	ssfid = member['id']
-	fideid = member['fideid']
-	firstName = member['firstName']
-	lastName = member['lastName']
-	sex = member['sex']
-	birthYear = int(member['birthdate'])
-	elo = member['elo']
-	classic = elo['rating']
-	rapid = elo['rapidRating']
-	blitz = elo['blitzRating']
-	name = lastName + ', ' + firstName
-	ssf[fideid] = [classic, rapid, blitz, ssfid, name, sex, birthYear]
+	with open('clubs/' + club + '.txt', 'w', encoding='utf-8') as g:
+		g.write(f"{club} ({len(result)} medlemmar) {month}\n\n")
+		g.write('\n'.join(result))
 
-with open('ssf.json', 'w', encoding='utf-8') as g:
-	json.dump(ssf, g, ensure_ascii=False)
+month = '2025-11'
+for clubid in [40628,38453,38454,38455,38456,38457,38658,39958,38460,38462,38464,38468,38472,38470,38469,38476,38477,38478,38447,38479,38480,38481]:
+	fetchClub(clubid,month)
 
-print(time.time()-start) # 2.85 sek => 9930 personer
+print(round(time.time()-start,3))
