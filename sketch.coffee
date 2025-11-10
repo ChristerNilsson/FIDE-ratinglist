@@ -93,21 +93,25 @@ updateTimeEstimation = ->
 
 app = document.getElementById "app"
 
+# title
 title = koppla "input", app, placeholder:'Title'
 title.style.width = "286px"
 
+# types: Berger or FairPair
 div1 = koppla "div", app
 types = koppla "select", div1
 for type in 'Berger FairPair'.split ' '
 	koppla "option", types, text:type
 types.addEventListener "change", -> update()
 
+# bases
 div2 = koppla "div", app
 bases = koppla "select", div2
 for base in [1,2,3,4,5,10,15,25,30,45,60,90]
 	koppla "option", bases, text:"#{base} min"
 bases.addEventListener "change", -> update()
 
+# incrs
 incrs = koppla "select", div2
 for incr in [0,1,2,3,4,5,10,15,20,25,30]
 	koppla "option", incrs, text:"#{incr} sec"
@@ -117,11 +121,13 @@ speed = koppla "label", div2, text:" Classic"
 
 div3 = koppla "div", app
 
+# rounds
 rounds = koppla "select", div3, disabled:true
 for r in range 21
 	koppla "option", rounds, text:"#{r} rounds"
 rounds.addEventListener "change", -> update()
 
+# single / double
 double = koppla "select", div3
 double.style.width = "75px"
 koppla "option",double, text:"single"
@@ -130,15 +136,20 @@ double.addEventListener "change", -> update()
 
 estimation = koppla "label", div3 #, text: " 3 h 27 m"
 
+# input
 div4 = koppla "div",app
 player = koppla "input", div4, placeholder:'FIDE id'
 player.style.width = "80px"
 player.addEventListener "keydown", (event) =>
 	if event.key == "Enter" then ins.click()
 
+# Insert
 ins = koppla "button", div4, text:'Insert'
 ins.addEventListener 'click', -> 
 	p = await transfer SPEED,player.value
+	# Förhindra dublett
+	if Array.from(players.options).some (o) -> o.text is p then return
+
 	if p.length < 10 then return 
 	koppla "option",players, text: p
 	player.value = ""
@@ -146,6 +157,7 @@ ins.addEventListener 'click', ->
 	players.selectedIndex = players.options?.length - 1
 	update()
 
+# Delete
 del = koppla "button", div4, text:'Delete'
 del.addEventListener 'click', -> 
 	if players.options?.length == 0 then return 
@@ -155,8 +167,10 @@ del.addEventListener 'click', ->
 	players.selectedIndex = i
 	update()
 
+# playerCount
 playerCount = koppla "label", div4, text: " 0"
 
+# players
 players = koppla "select", app, size:20
 koppla "option",players, text:1700057
 koppla "option",players, text:1700111
