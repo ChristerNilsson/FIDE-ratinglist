@@ -55,6 +55,22 @@ transfer = (speed, fidenumber) ->
 	name = member[3]
 	fidenumber + ' ' + if rating == undefined or name == undefined then "" else rating + ' ' + name
 
+update = ->
+	updateRounds()
+	updateSpeed()
+	updateTimeEstimation()
+
+updateRounds = ->
+	rounds.disabled = types.value == "Berger"
+	n = players.options?.length
+	if types.value == "Berger"
+		if n == 0 then rounds.selectedIndex = 0
+		else
+			if n %% 2 == 0
+				rounds.selectedIndex = n - 1
+			else 
+				rounds.selectedIndex = n
+
 updateSpeed = ->
 	base = parseInt bases.value
 	incr = parseInt incrs.value
@@ -63,7 +79,6 @@ updateSpeed = ->
 	if total < 60 then SPEED = 1 # Rapid
 	if total < 10 then SPEED = 2 # Blitz
 	speed.textContent = ' ' + 'Classic Rapid Blitz'.split(' ')[SPEED]
-	updateTimeEstimation()
 
 updateTimeEstimation = ->
 	base = parseInt bases.value
@@ -85,32 +100,33 @@ div1 = koppla "div", app
 types = koppla "select", div1
 for type in 'Berger FairPair'.split ' '
 	koppla "option", types, text:type
+types.addEventListener "change", -> update()
 
 div2 = koppla "div", app
 bases = koppla "select", div2
 for base in [1,2,3,4,5,10,15,25,30,45,60,90]
 	koppla "option", bases, text:"#{base} min"
-bases.addEventListener "change", -> updateSpeed()
+bases.addEventListener "change", -> update()
 
 incrs = koppla "select", div2
 for incr in [0,1,2,3,4,5,10,15,20,25,30]
 	koppla "option", incrs, text:"#{incr} sec"
-incrs.addEventListener "change", -> updateSpeed()
+incrs.addEventListener "change", -> update()
 
 speed = koppla "label", div2, text:" Classic"
 
 div3 = koppla "div", app
 
-rounds = koppla "select",div3
-for r in range 3,21
+rounds = koppla "select", div3, disabled:true
+for r in range 21
 	koppla "option", rounds, text:"#{r} rounds"
-rounds.addEventListener "change", -> updateTimeEstimation()
+rounds.addEventListener "change", -> update()
 
 double = koppla "select", div3
 double.style.width = "75px"
 koppla "option",double, text:"single"
 koppla "option",double, text:"double"
-double.addEventListener "change", -> updateTimeEstimation()
+double.addEventListener "change", -> update()
 
 estimation = koppla "label", div3 #, text: " 3 h 27 m"
 
@@ -122,30 +138,36 @@ player.addEventListener "keydown", (event) =>
 
 ins = koppla "button", div4, text:'Insert'
 ins.addEventListener 'click', -> 
-	start = new Date()
 	p = await transfer SPEED,player.value
 	if p.length < 10 then return 
 	koppla "option",players, text: p
 	player.value = ""
 	player.focus()
 	playerCount.textContent = " #{players.options.length}"
-	stopp = new Date()
-	echo stopp - start
+	update()
 
 del = koppla "button", div4, text:'Delete'
 del.addEventListener 'click', -> 
 	if players.options?.length == 0 then return 
 	players.removeChild players.lastElementChild
 	playerCount.textContent = " #{players.options.length}"
+	update()
 
 playerCount = koppla "label", div4, text: " 0"
 
 players = koppla "select", app, size:20
+koppla "option",players, text:1700057
+koppla "option",players, text:1700111
+koppla "option",players, text:1705300
+koppla "option",players, text:1724738
+koppla "option",players, text:1760025
 players.style.width = "294px"
-players.style.fontFamily = "monospace"
+playerCount.textContent = " " + players.options?.length
 
+types.selectedIndex = 1
 bases.selectedIndex = 9
 incrs.selectedIndex = 7
 rounds.selectedIndex = 4
 double.selectedIndex = 0
-updateSpeed()
+
+update()
