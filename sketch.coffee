@@ -143,14 +143,16 @@ ins.addEventListener 'click', ->
 	koppla "option",players, text: p
 	player.value = ""
 	player.focus()
-	playerCount.textContent = " #{players.options.length}"
+	players.selectedIndex = players.options?.length - 1
 	update()
 
 del = koppla "button", div4, text:'Delete'
 del.addEventListener 'click', -> 
 	if players.options?.length == 0 then return 
-	players.removeChild players.lastElementChild
-	playerCount.textContent = " #{players.options.length}"
+	i = players.selectedIndex
+	players.remove i
+	if i >= players.options?.length then i--
+	players.selectedIndex = i
 	update()
 
 playerCount = koppla "label", div4, text: " 0"
@@ -162,6 +164,7 @@ koppla "option",players, text:1705300
 koppla "option",players, text:1724738
 koppla "option",players, text:1760025
 players.style.width = "294px"
+players.selectedIndex = players.options?.length - 1
 playerCount.textContent = " " + players.options?.length
 
 types.selectedIndex = 1
