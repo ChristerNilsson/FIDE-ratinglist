@@ -78,7 +78,7 @@ updateSpeed = ->
 	SPEED = 0 # Classic
 	if total < 60 then SPEED = 1 # Rapid
 	if total < 10 then SPEED = 2 # Blitz
-	speed.textContent = ' ' + 'Classic Rapid Blitz'.split(' ')[SPEED]
+	speed.textContent = 'Classic Rapid Blitz'.split(' ')[SPEED]
 
 updateTimeEstimation = ->
 	base = parseInt bases.value
@@ -89,9 +89,14 @@ updateTimeEstimation = ->
 	minutes = count * games * total * 2
 	hours = minutes // 60
 	minutes = minutes %% 60
-	estimation.textContent = " #{hours} h #{minutes} m"
+	estimation.textContent = "#{hours} h #{minutes} m"
 
 app = document.getElementById "app"
+app.style.display = "flex"
+app.style.flexDirection = "column"
+app.style.alignItems = "center"
+# app.style.gap = "8px"
+app.style.textAlign = "center"
 
 # title
 title = koppla "input", app, placeholder:'Title'
@@ -117,7 +122,7 @@ for incr in [0,1,2,3,4,5,10,15,20,25,30]
 	koppla "option", incrs, text:"#{incr} sec"
 incrs.addEventListener "change", -> update()
 
-speed = koppla "label", div2, text:" Classic"
+speed = koppla "label", div2, text:"Classic"
 
 div3 = koppla "div", app
 
@@ -168,7 +173,7 @@ del.addEventListener 'click', ->
 	update()
 
 # playerCount
-playerCount = koppla "label", div4, text: " 0"
+playerCount = koppla "label", div4, text: "0"
 
 # players
 players = koppla "select", app, size:20
@@ -179,7 +184,7 @@ koppla "option",players, text:1724738
 koppla "option",players, text:1760025
 players.style.width = "294px"
 players.selectedIndex = players.options?.length - 1
-playerCount.textContent = " " + players.options?.length
+playerCount.textContent = players.options?.length
 
 types.selectedIndex = 1
 bases.selectedIndex = 9

@@ -2,7 +2,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title></title>
+            <title>FairPair - begr&auml;nsningar i samband med elo uppdatering</title>
             <style>
 /* From extension vscode.github */
 /*---------------------------------------------------------------------------------------------
@@ -160,6 +160,76 @@ Filen hämtas från FIDE och är cirka 273 MB stor.</p>
 </ul>
 </li>
 </ul>
+<h2 id="fairpair---begränsningar-i-samband-med-elo-uppdatering">FairPair - begränsningar i samband med elo uppdatering</h2>
+<ul>
+<li>I första hand bör turneringen avslutas inom en kalendermånad.</li>
+<li>Det innebär att långpartier inte kan hanteras.</li>
+<li>Orsaken till denna begränsning är att FIDE vill att delrapporter ska skickas varje månad</li>
+<li>Om en rapport rejectas, t ex beroende på att någon medlem saknar FIDE-id, måste kan kunna sända en gång till.</li>
+</ul>
+<h2 id="min-hantering-av-rapporter---logg">Min hantering av rapporter - Logg</h2>
+<p>Om vi håller oss till Berger och FairPair, så kan man spela partierna i vilken ordning som helst.<br>
+Dock vill man helst att speldatum används för rapportering, inte rondernas datum.<br>
+Ffa om man spelar en äldre rond ett par månader efteråt.<br>
+För att hålla reda på detta loggas partier istf att använda r1 .. rn.<br>
+I loggen kommer det att stå: vits id + svarts id + resultat. Detta kan lagras i fem tecken<br>
+Loggen kommer att innehålla ett antal månadsgrupper.<br>
+Längden på dessa månadsgrupper sparas i ett index.<br>
+När man vill köra en rapport får man ange var man vill börja, mha detta index.</p>
+<ul>
+<li>Anger man 1 kommer allt rapporteras igen</li>
+<li>Anger man 2 kommer första månaden att ignoreras</li>
+<li>Anger man 3 blir rapporten tom.</li>
+</ul>
+<p>Då kan man alltså slå ihop två eller flera månader.<br>
+När detta är gjort påbörjas en ny månadsgrupp.</p>
+<h2 id="index-med-8-spelare">Index med 8 spelare</h2>
+<pre><code>AB1 # A slog B med vita pjäser
+CD0
+EF= # remi
+AG1 # Parti spelat i förväg
+=== # Månadskifte
+AC=
+BE0
+DG=
+GH1 # Denna match skulle egentligen spelats förra månaden
+=== # Månadskifte
+</code></pre>
+<p>AB1 kan användas om en turnering har 64 eller färre deltagare.<br>
+Har man fler deltagare används två tecken för att identifiera en spelare. Upp till 64*64=4096 spelare kan hanteras.<br>
+Tecken 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ + två tecken till, t ex _ och -</p>
+<h2 id="trf16">TRF16</h2>
+<p>Dessa kolumner anger <strong>inte</strong> när partierna spelats.<br>
+Det framgår istället av Första och Sista Speldatum<br>
+Partierna kan skrivas ut horisontellt eller vertikalt, spelar inte roll.</p>
+<pre><code>12 Kalle 13w1 14b= ...
+13 Pelle 16b0 ...
+</code></pre>
+<h2 id="hur-vet-man-att-fide-lyckats-läsa-in-en-fil">Hur vet man att FIDE lyckats läsa in en fil?</h2>
+<p><a href="https://ratings.fide.com/rated_tournaments.phtml?country=SWE">https://ratings.fide.com/rated_tournaments.phtml?country=SWE</a><br>
+Sortera t ex på namn och leta upp Seniorserien... resp Stockholmsmasterskapet veteran 2025...<br>
+Sista kolumnen anger inläsningsdatum.<br>
+Tyvärr får man inte reda på orsaken till en reject, men man kan prova att läsa in filen med flera olika verktyg.</p>
+<ul>
+<li>member.schack</li>
+<li>Swiss Manager</li>
+<li>FIDE?</li>
+</ul>
+<p>Förklaring till koder använt på denna websida:</p>
+<pre><code>s = swiss
+t = team
+r = round robin dvs Berger
+d = double Berger
+
+sjukt att blanda ihop tre dimensioner så här.
+1: Berger/Swiss
+2: Individuell/Team
+3: Single/Double
+</code></pre>
+<h2 id="dan-israels-förtida-partier-berger">Dan Israels förtida partier. Berger</h2>
+<p>Hanteringen av dessa tyder på att man rapporterar enligt ronddatum. Partier som spelades i oktober kommer att rapportera i december. Detta innebär att partierna skulle kunna rapporterat tidigare, vilket är bättre.</p>
+<p>Vad värre är: Missar man att spela ett uppskjutet parti inom månaden, kommer det troligen inte med i rapporten.
+Hanteringen av detta är knölig. Partiet måste rapporteras som Uppskjutet och när det gäller Swiss använder man tendenslottning. Tendenslottning innebär att partiet räknas som vinst för den bättre spelaren om eloskillnaden är &gt; 200, annars remi. När partiet sedan spelas gäller det riktiga resultatet.</p>
 
             
             
