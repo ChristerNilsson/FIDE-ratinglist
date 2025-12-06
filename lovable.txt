@@ -1,0 +1,144 @@
+BLOCK
+  HEAD Seniorschack Stockholm
+  TEXT Välkommen till Sveriges mest aktiva schackklubb för seniorer
+  LIST
+    BUTTON 3 speldagar/vecka
+    BUTTON 200+ medlemmar
+    BUTTON Flera turneringsklasser
+  LIST
+    BUTTON Bli Medlem   
+    BUTTON Se Kalender
+    
+BLOCK
+  HEAD Nyheter & Aktuellt
+  TEXT Håll dig uppdaterad med de senaste nyheterna från klubben
+  
+  CARD title: "Medlemsavgifter för 2025",
+	date: "4 mars 2025",
+	category: "Viktig info",
+	content: "Årsmötet beslutade att årsavgiften för 2025 ska vara 440 kr, plus förbundsavgifter till Stockholms Schackförbund och Sveriges Schackförbund (360 kr totalt). Medlemmar med Seniorschack som huvudklubb betalar 800 kr, övriga 440 kr.",
+	badge: "Nytt"
+
+  CARD title: "Spelschema Vårterminen",
+	date: "15 januari 2025",
+	category: "Schema",
+	content: "Vi spelar på tisdagar, onsdagar och torsdagar i Schacksalongerna på Ringvägen 9C och andra lokaler. Välkommen till trevlig och kamratlig samvaro med schackintresserade seniorer!",
+	badge: null
+
+  CARD title: "Stockholms Mästerskap Veteraner 60+",
+	date: "10 januari 2025",
+	category: "Tävling",
+	content: "Anmälan öppen för årets veteranmästerskap. Tävlingen genomförs i schweizisk stil med flera klasser.",
+	badge: "Pågående"
+
+BLOCK
+  HEAD Spelkalender
+  TEXT Se kommande aktiviteter och filtrera efter typ av evenemang
+  
+  FILTER Alla Tisdag Onsdag Torsdag Tävling Special
+
+    CARD id: 1,
+    	title: "Tisdagsspel",
+    	type: "tisdag",
+    	date: "2025-01-21",
+    	time: "10:00 - 16:00",
+    	location: "Ringvägen 9C (T-bana Zinkensdamm)",
+    	description: "Öppet spelande med schackintresserade seniorer"
+
+	  CARD id: 2,
+		title: "Onsdagsspel 11:00",
+		type: "onsdag",
+		date: "2025-01-22",
+		time: "11:00 - 17:00",
+		location: "Rioträffen, Sandhamnsgatan 4 (T-bana Gärdet)",
+		description: "Trevlig samvaro med många spännande partier"
+	
+  	CARD id: 3,
+		title: "Torsdagsspel 11:00",
+		type: "torsdag",
+		date: "2025-01-23",
+		time: "11:00 - 17:00",
+		location: "Schacksalongen Ringvägen",
+		description: "Veckans avslutande speldag med simultaneringsspel"
+
+  	CARD id: 4,
+		title: "Klass M - Rond 3",
+		type: "tavling",
+		date: "2025-01-28",
+		time: "10:00",
+		location: "Schacksalongen Ringvägen",
+		description: "Serietävling för mästarklassen"
+
+	  CARD id: 5,
+		title: "Tisdagsspel",
+		type: "tisdag",
+		date: "2025-01-28",
+		time: "10:00 - 16:00",
+		location: "Ringvägen 9C (T-bana Zinkensdamm)",
+		description: "Öppet spelande med schackintresserade seniorer"
+
+	  CARD id: 6,
+		title: "Stockholms Mästerskap Veteraner 60+",
+		type: "special",
+		date: "2025-02-01",
+		time: "10:00",
+		location: "Olika lokaler",
+		description: "Årets stora veteranturnering med flera klasser"
+  
+  BLOCK
+  	HEAD Aktuella Turneringar
+  	TEXT Följ våra lag och individuella tävlingar i olika klasser
+  	CARD Turneringsöversikt
+  	  LINK Lag-DM http://
+  	  LINK Allsvenskan Div III http://
+  	  LINK Klass M http://
+  	  LINK Klass 1 http://
+  	  LINK Klass 2 http://
+  	  LINK Klass 3 http://
+  	  LINK Klass 4 http://
+  	  LINK SthM Vet 60+ http://
+  
+  BLOCK
+    HEAD Om Klubben
+    TEXT Seniorschack Stockholm är en aktiv schackklubb för spelare 60+ i Stockholmsområdet
+    CARD Vår verksamhet
+      Seniorschack spelar på tisdagar, onsdagar och torsdagar i Schacksalongerna på Ringvägen 9C (T-bana Zinkensdamm), samt på måndagar och fredagar på Rioträffen på Sandhamnsgatan 4 (T-bana Gärdet). Vi samlas till en trevlig och kamratlig samvaro med schackintresserade seniorer, där vi spelar många spännande schackpartier och utvecklande schackseminarier samt spännande simultaneringsspel.      
+    CARD Speltider
+      Tisdagar:  10-16
+      Onsdagar:  11-17
+      Torsdagar: 11-17
+    CARD Vill du bli medlem?
+      Hör av dig till klubblokalen enligt schemat ovan eller kontakta styrelsen för mer information om medlemskap och avgifter.
+	  Styrelsen/Seniorschack Stockholm    
+	  
+  BLOCK 
+    HEAD Medlemskap
+    TEXT Bli medlem i Sveriges mest aktiva schackklubb för seniorer
+    
+    CARD Ordinarie medlem
+      För dig med annan huvudklubb    
+      HEAD 440 kr
+      TEXT per år
+      LIST
+      	Tillgång till alla speldagar
+		Delta i klubbturneringar
+		Schackseminarier och simultanspel
+        Trevlig social samvaro
+      BUTTON Välj detta alternativ
+
+    CARD Huvudklubbsmedlem
+      Seniorschack som huvudklubb    
+      HEAD 800 kr
+      TEXT per år (inkl. förbundsavgifter)
+      LIST
+      	Alla förmåner från ordinarie
+		Inkluderar Stockholms Schackförbund
+		Inkluderar Sveriges Schackförbund
+		Officiell rating och tävlingsrättigheter		
+      BUTTON Välj detta alternativ      
+      
+   BLOCK
+     HEAD Betalningsinformation
+     TEXT Avgiften betalas till klubbens bankgiro:
+     TEXT 111-1038
+     TEXT För schack-kurs deltagare anordnad i samarbete med PRO är årsavgiften också 440 kr

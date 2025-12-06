@@ -18,7 +18,10 @@ def fetchFIDE():
 			classic = int(line[113:117].strip())
 			rapid = int(line[126:130].strip())
 			blitz = int(line[139:143].strip())
-			shard = fideId[-4:-1]
+
+			# shard = fideId[-4:-1]
+			shard = fideId[0:3]
+
 			h = hash[shard]
 			h[fideId] = [classic,rapid,blitz,name]
 	for i in range(1000):

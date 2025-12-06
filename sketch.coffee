@@ -9,7 +9,10 @@ fetchShard = (fidenumber) ->
 	shard = "#{fidenumber}"
 	n = shard.length
 	if n < 7 then return ""
-	shard = shard.slice n-4,n-1
+	# shard = shard.slice n-4,n-1
+	shard = shard.slice 0,3
+
+	echo shard
 
 	try
 		filename = "./shards/#{shard}.json"
