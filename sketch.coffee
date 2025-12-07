@@ -1,6 +1,9 @@
 echo = console.log
 range = _.range
 
+MINUTES = [1,2,3,4,5,10,15,25,30,45,60,90]
+SECONDS = [0,1,2,3,4,5,10,15,20,25,30]
+
 SPEED = 0 # 0=Classic 1=Rapid 2=Blitz
 
 members = {}
@@ -9,7 +12,6 @@ fetchShard = (fidenumber) ->
 	shard = "#{fidenumber}"
 	n = shard.length
 	if n < 7 then return ""
-	# shard = shard.slice n-4,n-1
 	shard = shard.slice 0,3
 
 	echo shard
@@ -59,20 +61,8 @@ transfer = (speed, fidenumber) ->
 	fidenumber + ' ' + if rating == undefined or name == undefined then "" else rating + ' ' + name
 
 update = ->
-	updateRounds()
 	updateSpeed()
 	updateTimeEstimation()
-
-updateRounds = ->
-	rounds.disabled = types.value == "Berger"
-	n = players.options?.length
-	if types.value == "Berger"
-		if n == 0 then rounds.selectedIndex = 0
-		else
-			if n %% 2 == 0
-				rounds.selectedIndex = n - 1
-			else 
-				rounds.selectedIndex = n
 
 updateSpeed = ->
 	base = parseInt bases.value
@@ -105,23 +95,16 @@ app.style.textAlign = "center"
 title = koppla "input", app, placeholder:'Title'
 title.style.width = "286px"
 
-# types: Berger or FairPair
-div1 = koppla "div", app
-types = koppla "select", div1
-for type in 'Berger FairPair'.split ' '
-	koppla "option", types, text:type
-types.addEventListener "change", -> update()
-
 # bases
 div2 = koppla "div", app
 bases = koppla "select", div2
-for base in [1,2,3,4,5,10,15,25,30,45,60,90]
+for base in MINUTES
 	koppla "option", bases, text:"#{base} min"
 bases.addEventListener "change", -> update()
 
 # incrs
 incrs = koppla "select", div2
-for incr in [0,1,2,3,4,5,10,15,20,25,30]
+for incr in SECONDS
 	koppla "option", incrs, text:"#{incr} sec"
 incrs.addEventListener "change", -> update()
 
@@ -130,7 +113,7 @@ speed = koppla "label", div2, text:"Classic"
 div3 = koppla "div", app
 
 # rounds
-rounds = koppla "select", div3, disabled:true
+rounds = koppla "select", div3
 for r in range 21
 	koppla "option", rounds, text:"#{r} rounds"
 rounds.addEventListener "change", -> update()
@@ -189,9 +172,8 @@ players.style.width = "294px"
 players.selectedIndex = players.options?.length - 1
 playerCount.textContent = players.options?.length
 
-types.selectedIndex = 1
-bases.selectedIndex = 9
-incrs.selectedIndex = 7
+bases.selectedIndex = MINUTES.length - 1
+incrs.selectedIndex = SECONDS.length - 1
 rounds.selectedIndex = 4
 double.selectedIndex = 0
 
