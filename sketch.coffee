@@ -63,6 +63,7 @@ transfer = (speed, fidenumber) ->
 update = ->
 	updateSpeed()
 	updateTimeEstimation()
+	updateCount()
 
 updateSpeed = ->
 	base = parseInt bases.value
@@ -83,6 +84,9 @@ updateTimeEstimation = ->
 	hours = minutes // 60
 	minutes = minutes %% 60
 	estimation.textContent = "#{hours} h #{minutes} m"
+
+updateCount = ->
+	playerCount.textContent = players.options?.length
 
 app = document.getElementById "app"
 app.style.display = "flex"
@@ -170,7 +174,6 @@ koppla "option",players, text:1724738
 koppla "option",players, text:1760025
 players.style.width = "294px"
 players.selectedIndex = players.options?.length - 1
-playerCount.textContent = players.options?.length
 
 bases.selectedIndex = MINUTES.length - 1
 incrs.selectedIndex = SECONDS.length - 1
