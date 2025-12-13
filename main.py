@@ -20,15 +20,19 @@ def fetchClub(clubid,month):
 		firstName = member['firstName']
 		lastName = member['lastName']
 		birthYear = int(member['birthdate'])
-		name = lastName + ', ' + firstName
-		result.append(f"{name} {fideid} {birthYear}")
+		name = lastName + ' ' + firstName
+		elo = member['elo']
+		result.append(f"{fideid};{lastName};{firstName};{club};SWE;M;{birthYear};{elo['rating']};{elo['rating']}")
 	result.sort()
 
 	with open('clubs/' + club + '.txt', 'w', encoding='utf-8') as g:
-		g.write(f"{club} ({len(result)} medlemmar) {month}\n\n")
+		g.write("FIDE-No;surname;first name;Club;Fed;Sex;Birth;Rating nat;Rating int\n")
 		g.write('\n'.join(result))
 
-month = '2025-11'
+# Dessa är de enda som fungerar:
+"No, surname, first name, Title, FIDE-No, ID no, Rating nat, Rating int, Birth, Fed, Sex, Type, Gr, Clubno, Club, Name, Captain, Board"
+
+month = '2025-12'
 for clubid in [40628,38453,38454,38455,38456,38457,38658,39958,38460,38462,38464,38468,38472,38470,38469,38476,38477,38478,38447,38479,38480,38481]:
 	fetchClub(clubid,month)
 
